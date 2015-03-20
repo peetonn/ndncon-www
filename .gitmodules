@@ -1,0 +1,3 @@
+[submodule "ndnrtc-tools"]
+	path = ndnrtc-tools
+	url = https://github.com/peetonn/ndnrtc-tools.git

@@ -1,0 +1,20 @@
+{# _myapp/templates/layout.html_ #}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+        <script type=text/javascript src="{{ url_for('static', filename='jquery-2.1.3.min.js') }}"></script>
+        <script type=text/javascript src="{{ url_for('static', filename='main.js') }}"></script>
+        <script type=text/javascript>
+            $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+        </script>
+        <title>{% block title %}{% endblock %}</title>
+    </head>
+    <body>
+    	<div class="wrapper">
+    	{% block body %}
+    	{% endblock %}
+    	</div>
+    </body>
+</html>

@@ -1,0 +1,64 @@
+
+.loader {
+  $bg-list: ();
+  $size-list: ();
+  $n-bars: 5;
+  $bar-top-c: $color1;
+  $bar-bottom-c: $bar-top-c;
+  $bar-w: .5em;
+  $bar-h: 2em;
+  $bar-space: .125em;
+  
+  @for $i from 0 to $n-bars {
+    $bg-list: $bg-list, 
+      linear-gradient($bar-top-c, $bar-bottom-c) 
+        if($i > 0, $i*($bar-w + $bar-space), 0) 50%;
+    $size-list: $size-list, $bar-w $bar-h/8;
+  }
+
+  width: $n-bars*$bar-w + ($n-bars - 1)*$bar-space;
+  height: $bar-h;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  background: $bg-list;
+  background-repeat: no-repeat;
+  background-size: $size-list;
+  -webkit-animation: wave 1.5s linear infinite;
+  animation: wave 1.5s linear infinite;
+  
+  @at-root {
+    @-webkit-keyframes wave {        
+      @for $i from 0 to $n-bars {
+        #{25% + $i*100%/8} {
+          $bg-list: ();
+          $size-list: ();
+          $bar-full-exp-top-c: $color2;
+          $bar-full-exp-bottom-c: $bar-full-exp-top-c;
+          
+          @for $j from 0 to $n-bars {
+            $bar-curr-top-c: $bar-top-c;
+            $bar-curr-bottom-c: $bar-bottom-c;
+            $bar-curr-h: $bar-h/8;
+            
+            @if $i == $j {
+              $bar-curr-top-c: $bar-full-exp-top-c;
+              $bar-curr-bottom-c: $bar-full-exp-bottom-c;
+              $bar-curr-h: $bar-h;
+            }
+            
+            $bg-list: $bg-list, 
+              linear-gradient($bar-curr-top-c, $bar-curr-bottom-c) 
+                if($j > 0, $j*($bar-w + $bar-space), 0) 50%;
+            $size-list: $size-list, 
+              $bar-w $bar-curr-h;
+          }
+          
+          background: $bg-list;
+          background-repeat: no-repeat;
+          background-size: $size-list;
+        }
+      }
+    }
+  }
+}

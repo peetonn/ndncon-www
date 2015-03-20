@@ -1,0 +1,55 @@
+.qs {
+  cursor: default;
+  position: relative;
+  display: inline-block;
+  float: center;
+  
+  .popover {
+    display: none;
+  }
+}
+
+.qs-active {
+  position: relative;
+  .popover {
+    float: right;
+    background-color: $color2;
+    color: $color1;
+    font-size: 12px;
+    padding: 7px 10px;
+    position: absolute;
+    width: 150px;
+    z-index: 4;
+    display: inline-block;
+    left: 160px;
+    top: 0px;
+    -webkit-animation: fade-in .3s linear 1;
+    -moz-animation: fade-in .3s linear 1;
+    -ms-animation: fade-in .3s linear 1;    
+  }
+}
+
+@-webkit-keyframes fade-in {
+	from   { opacity: 0; }
+	to { opacity: 1; }
+}
+@-moz-keyframes fade-in {
+	from   { opacity: 0; }
+	to { opacity: 1; }
+}
+@-ms-keyframes fade-in {
+	from   { opacity: 0; }
+	to { opacity: 1; }
+}
+@-webkit-keyframes move-up {
+	from   { bottom: 30px; }
+	to { bottom: 42px; }
+}
+@-moz-keyframes move-up {
+	from   { bottom: 30px; }
+	to { bottom: 42px; }
+}
+@-ms-keyframes move-up {
+	from   { bottom: 30px; }
+	to { bottom: 42px; }
+}

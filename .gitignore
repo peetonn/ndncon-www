@@ -1,0 +1,7 @@
+*.pyc
+._*
+.DS_Store
+.sass-cache
+*.log
+*.css.map
+*.css

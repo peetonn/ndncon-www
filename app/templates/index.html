@@ -1,0 +1,101 @@
+{# _myapp/templates/index.html_ #}
+
+{% extends "layout.html" %}
+{% block title %}NdnCon sessions{% endblock %}
+{% block body %}
+    {{ super() }}
+<script type=text/javascript>
+  $(function() {
+    $('a#newSessionsBtn').bind('click', function() {
+      	var d = document.getElementById("newSessionsBtn");
+      	if (d.className.indexOf('loading') == -1)
+		{
+			$("#result").text = "";			
+      		d.className += " loading";
+      		$("#newSessionsBtn").append('<div class="loader"></div>');
+      		$.getJSON($SCRIPT_ROOT + '/_check_new_sessions', {}, function(data) {
+      			var d = document.getElementById("newSessionsBtn");
+      			d.className = d.className.replace(" loading", "");
+    			d.innerHTML = d.innerHTML.replace('<div class="loader"></div>', '');
+      			showPopoverFor("newSessionsBtn", 2000);
+      			$("#result").text(data.result+" new sessions");
+      			if (data.sessions.length > 0)
+      			{
+					$(".empty-row").remove();
+					for (var i in data.sessions)
+					{
+						var session = data.sessions[i].session;
+						var rowDiv = $('<div class="row">');
+	
+						rowDiv.append('<div class="cell">'+session.time+'</div>');
+						rowDiv.append('<div class="cell"><strong>'+session.user+'</strong></div>');
+						rowDiv.append('<div class="cell">'+session.consumers+'</div>');
+						rowDiv.append('<div class="cell">'+session.producers+'</div>');
+	
+						$(".table").append(rowDiv);				
+						$(".table").append('</div>');
+					}
+      			}
+      		});
+      }
+      return false;
+    });
+  });
+</script>
+	<a href=# class='button dark center qs' id=newSessionsBtn>
+		<span id=caption>Check new sessions</span>
+		<span class="popover" id=result></span>
+	</a>
+	<p>
+	<span id=result>?</span>
+	<div class="table">
+		<div class="row header" id=table-header>
+			<div class="cell">
+				Time
+			</div>
+			<div class="cell">
+				User
+			</div>
+			<div class="cell">
+				# consumers
+			</div>
+			<div class="cell">
+				# producers
+			</div>
+		</div>
+		{% for session in sessions %}
+			<div class="row">
+				<div class="cell">
+					{{ session.time() | safe }}
+				</div>
+				<div class="cell">
+					{% if not session.lastSeen %}
+					<strong>
+					{% endif %}					
+					{{ session.user | safe}}
+					{% if not session.lastSeen %}
+					</strong>
+					{% endif %}
+				</div>
+				<div class="cell">
+					{{ session.consumerReports() | length }}
+				</div>
+				<div class="cell">
+					{{ session.producerReports() | length }}					
+				</div>
+			</div>
+		{% else %}
+		<div class="row empty-row">
+			<div class="cell">
+			No sessions
+			</div>
+			<div class="cell">
+			</div>
+			<div class="cell">
+			</div>
+			<div class="cell">
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+{% endblock %}
